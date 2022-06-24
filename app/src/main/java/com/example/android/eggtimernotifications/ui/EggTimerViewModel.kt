@@ -85,11 +85,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
 
     }
 
-    /**
-     * Turns on or off the alarm
-     *
-     * @param isChecked, alarm status to be set.
-     */
+
     fun setAlarm(isChecked: Boolean) {
         when (isChecked) {
             true -> timeSelection.value?.let { startTimer(it) }
@@ -97,18 +93,12 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /**
-     * Sets the desired interval for the alarm
-     *
-     * @param timerLengthSelection, interval timerLengthSelection value.
-     */
+
     fun setTimeSelected(timerLengthSelection: Int) {
         _timeSelection.value = timerLengthSelection
     }
 
-    /**
-     * Creates a new alarm, notification and timer
-     */
+
     private fun startTimer(timerLengthSelection: Int) {
         _alarmOn.value?.let {
             if (!it) {
@@ -119,7 +109,6 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
                 }
                 val triggerTime = SystemClock.elapsedRealtime() + selectedInterval
 
-                // TODO: Step 1.15 call cancel notification
                 val notificationManager =
                     ContextCompat.getSystemService(
                         app,
@@ -142,9 +131,7 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
         createTimer()
     }
 
-    /**
-     * Creates a new timer
-     */
+
     private fun createTimer() {
         viewModelScope.launch {
             val triggerTime = loadTime()
@@ -164,17 +151,13 @@ class EggTimerViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /**
-     * Cancels the alarm, notification and resets the timer
-     */
+
     private fun cancelNotification() {
         resetTimer()
         alarmManager.cancel(notifyPendingIntent)
     }
 
-    /**
-     * Resets the timer on screen and sets alarm value false
-     */
+
     private fun resetTimer() {
         timer.cancel()
         _elapsedTime.value = 0
